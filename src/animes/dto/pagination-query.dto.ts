@@ -1,6 +1,14 @@
-import { IsOptional, IsInt, Min, Max, IsEnum } from 'class-validator';
-import { Type } from 'class-transformer';
+import {
+  IsOptional,
+  IsInt,
+  Min,
+  Max,
+  IsEnum,
+  IsBoolean,
+} from 'class-validator';
+import { Type, Transform } from 'class-transformer';
 import { ApiPropertyOptional } from '@nestjs/swagger';
+import { ReleaseDay } from 'src/generated/prisma/client';
 
 export enum SortOrder {
   ASC = 'asc',
@@ -61,4 +69,39 @@ export class PaginationQueryDto {
   @IsOptional()
   @IsEnum(SortOrder)
   order?: SortOrder = SortOrder.DESC;
+
+  @ApiPropertyOptional({
+    description: 'Filtrar por dia da semana de lançamento',
+    enum: ReleaseDay,
+    example: 'MONDAYS',
+  })
+  @IsOptional()
+  @Transform(({ value }) => value?.toUpperCase())
+  @IsEnum(ReleaseDay)
+  day?: ReleaseDay;
+
+  @ApiPropertyOptional({
+    description: 'Filtrar por ano de lançamento',
+    example: 2026,
+  })
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  year?: number;
+
+  @ApiPropertyOptional({
+    description: 'Filtrar apenas animes recomendados',
+    example: true,
+  })
+  @IsOptional()
+  @Transform(({ value }) => value === 'true' || value === true)
+  @IsBoolean()
+  recommended?: boolean;
+
+  @ApiPropertyOptional({
+    description: 'Buscar por título (case-insensitive)',
+    example: 'jujutsu',
+  })
+  @IsOptional()
+  search?: string;
 }
