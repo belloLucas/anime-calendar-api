@@ -194,7 +194,7 @@ No Swagger você pode:
 npx prisma studio
 ```
 
-Acesse: http://localhost:5555
+Ao rodar o comando, automaticamente irá redirecionar para o navegador.
 
 ### Resetar banco de dados (desenvolvimento)
 
