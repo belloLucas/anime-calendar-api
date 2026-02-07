@@ -38,6 +38,7 @@ model Anime {
   release_year Int?
   release_day ReleaseDay?
   is_recommended Boolean   @default(false)
+  favoritedBy Favorites[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -48,6 +49,22 @@ model Users {
   username    String   @unique
   password    String
   role        Role     @default(USER)
+  favorites   Favorites[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model Favorites {
+  id        String      @id @default(uuid())
+  userId String
+  animeId Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user Users @relation(fields: [userId], references: [id], onDelete: Cascade)
+  anime Anime @relation(fields: [animeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, animeId])
+  @@index([userId])
+  @@index([animeId])
 }
