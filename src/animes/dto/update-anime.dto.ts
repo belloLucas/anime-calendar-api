@@ -8,7 +8,7 @@ import {
   IsArray,
 } from 'class-validator';
 import { ReleaseDay } from 'src/generated/prisma/client';
-import { PartialType } from '@nestjs/mapped-types';
+import { PartialType } from '@nestjs/swagger';
 import { CreateAnimeDto } from './create-anime.dto';
 
 export class UpdateAnimeDto extends PartialType(CreateAnimeDto) {
