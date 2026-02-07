@@ -7,8 +7,10 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class AnimesService {
   constructor(private readonly prisma: PrismaService) {}
 
-  create(createAnimeDto: CreateAnimeDto) {
-    return 'This action adds a new anime';
+  async create(createAnimeDto: CreateAnimeDto) {
+    return await this.prisma.anime.create({
+      data: createAnimeDto,
+    });
   }
 
   async findAll() {
@@ -16,15 +18,22 @@ export class AnimesService {
     return animes;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} anime`;
+  async findOne(id: number) {
+    return await this.prisma.anime.findUnique({
+      where: { id },
+    });
   }
 
-  update(id: number, updateAnimeDto: UpdateAnimeDto) {
-    return `This action updates a #${id} anime`;
+  async update(id: number, updateAnimeDto: UpdateAnimeDto) {
+    return await this.prisma.anime.update({
+      where: { id },
+      data: updateAnimeDto,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} anime`;
+  async remove(id: number) {
+    return await this.prisma.anime.delete({
+      where: { id },
+    });
   }
 }
