@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAnimeDto } from './dto/create-anime.dto';
 import { UpdateAnimeDto } from './dto/update-anime.dto';
+import { PaginationQueryDto } from './dto/pagination-query.dto';
+import { PaginatedResponse } from './interfaces/paginated-response.interface';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { Anime } from 'src/generated/prisma/client';
 
 @Injectable()
 export class AnimesService {
@@ -13,9 +16,37 @@ export class AnimesService {
     });
   }
 
-  async findAll() {
-    const animes = await this.prisma.anime.findMany();
-    return animes;
+  async findAll(
+    paginationQuery?: PaginationQueryDto,
+  ): Promise<PaginatedResponse<Anime>> {
+    const page = paginationQuery?.page || 1;
+    const limit = paginationQuery?.limit || 5;
+    const sortBy = paginationQuery?.sortBy || 'createdAt';
+    const order = paginationQuery?.order || 'desc';
+    const skip = (page - 1) * limit;
+
+    const [animes, total] = await Promise.all([
+      this.prisma.anime.findMany({
+        skip,
+        take: limit,
+        orderBy: { [sortBy]: order },
+      }),
+      this.prisma.anime.count(),
+    ]);
+
+    const totalPages = Math.ceil(total / limit);
+
+    return {
+      data: animes,
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages,
+        hasNextPage: page < totalPages,
+        hasPrevPage: page > 1,
+      },
+    };
   }
 
   async findOne(id: number) {
