@@ -1,98 +1,262 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 📺 Calendário Anime API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+API REST para gerenciamento de calendário de animes com autenticação JWT e controle de acesso baseado em roles.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 🚀 Tecnologias
 
-## Description
+- **[NestJS](https://nestjs.com/)** - Framework Node.js
+- **[Prisma](https://www.prisma.io/)** - ORM
+- **[PostgreSQL](https://www.postgresql.org/)** - Banco de dados
+- **[JWT](https://jwt.io/)** - Autenticação
+- **[Swagger](https://swagger.io/)** - Documentação da API
+- **[TypeScript](https://www.typescriptlang.org/)** - Linguagem
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## 📋 Pré-requisitos
 
-## Project setup
+- **Node.js** >= 18.x
+- **npm** ou **yarn**
+- **PostgreSQL** >= 14.x
+
+## 🔧 Instalação
+
+### 1. Clone o repositório
 
 ```bash
-$ npm install
+git clone <url-do-repositorio>
+cd calendario-anime-api
 ```
 
-## Compile and run the project
+### 2. Instale as dependências
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm install
 ```
 
-## Run tests
+### 3. Configure as variáveis de ambiente
+
+Crie um arquivo `.env` na raiz do projeto:
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+cp .env.example .env
 ```
 
-## Deployment
+Edite o `.env` com suas configurações:
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+```env
+# Database
+DATABASE_URL="postgresql://usuario:senha@localhost:5432/anime_db?schema=public"
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+# JWT
+JWT_SECRET="seu_secret_super_seguro_aqui"
+JWT_EXPIRES_IN="7d"
+
+# Application
+NODE_ENV="development"
+PORT=3000
+```
+
+### 4. Configure o banco de dados
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+# Criar as migrations e aplicar ao banco
+npx prisma migrate dev
+
+# Gerar o Prisma Client (já é feito automaticamente no postinstall)
+npx prisma generate
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## ▶️ Executando a aplicação
 
-## Resources
+### Modo desenvolvimento
 
-Check out a few resources that may come in handy when working with NestJS:
+```bash
+npm run start:dev
+```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### Modo produção
 
-## Support
+```bash
+# Build
+npm run build
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+# Executar
+npm run start:prod
+```
 
-## Stay in touch
+A aplicação estará disponível em:
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- **API:** http://localhost:3000
+- **Swagger UI:** http://localhost:3000/api
 
-## License
+## 📦 Scripts Disponíveis
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+```bash
+# Desenvolvimento
+npm run start:dev          # Inicia em modo watch
+npm run start:debug        # Inicia em modo debug
+
+# Build e Produção
+npm run build              # Compila o projeto
+npm run start:prod         # Executa em produção
+
+# Prisma
+npm run prisma:generate    # Gera o Prisma Client
+npm run prisma:migrate     # Cria e aplica migrations
+npm run prisma:studio      # Abre o Prisma Studio
+
+# Testes
+npm run test               # Executa testes unitários
+npm run test:watch         # Testes em modo watch
+npm run test:cov           # Testes com coverage
+npm run test:e2e           # Testes end-to-end
+
+# Qualidade de código
+npm run lint               # Verifica o código
+npm run format             # Formata o código
+```
+
+## 🗂️ Estrutura do Projeto
+
+```
+calendario-anime-api/
+├── prisma/
+│   ├── schema.prisma              # Schema do Prisma
+│   └── migrations/                # Migrations do banco
+│
+├── src/
+│   ├── animes/                    # Módulo de animes
+│   │   ├── dto/                   # Data Transfer Objects
+│   │   ├── interfaces/            # Interfaces TypeScript
+│   │   ├── animes.controller.ts   # Controller
+│   │   ├── animes.service.ts      # Service
+│   │   └── animes.module.ts       # Module
+│   │
+│   ├── auth/                      # Módulo de autenticação
+│   │   ├── decorators/            # Decorators customizados
+│   │   ├── guards/                # Guards de proteção
+│   │   ├── strategies/            # Estratégias de autenticação
+│   │   ├── auth.controller.ts     # Controller
+│   │   ├── auth.service.ts        # Service
+│   │   └── auth.module.ts         # Module
+│   │
+│   ├── users/                     # Módulo de usuários
+│   │   ├── dto/                   # DTOs de usuários
+│   │   ├── users.service.ts       # Service
+│   │   └── users.module.ts        # Module
+│   │
+│   ├── prisma/                    # Módulo do Prisma
+│   │   ├── prisma.service.ts      # Service do Prisma
+│   │   └── prisma.module.ts       # Module do Prisma
+│   │
+│   ├── app.module.ts              # Módulo principal
+│   └── main.ts                    # Entry point
+│
+├── .env                           # Variáveis de ambiente (não commitado)
+├── .env.example                   # Template de variáveis
+├── .gitignore                     # Arquivos ignorados pelo Git
+├── package.json                   # Dependências e scripts
+└── README.md                      # Este arquivo
+```
+
+## 🔐 Autenticação
+
+A API utiliza JWT (JSON Web Tokens) para autenticação. Para acessar rotas protegidas:
+
+1. **Registre-se** em `POST /auth/register`
+2. **Faça login** em `POST /auth/login` para obter o token
+3. **Use o token** no header `Authorization: Bearer {seu_token}`
+
+### Roles Disponíveis
+
+- **USER** - Usuário comum (pode visualizar animes)
+- **ADMIN** - Administrador (pode criar, editar e deletar animes)
+
+## 📚 Documentação da API
+
+Após iniciar a aplicação, acesse a documentação interativa do Swagger:
+
+```
+http://localhost:3000/api
+```
+
+No Swagger você pode:
+
+- ✅ Visualizar todos os endpoints
+- ✅ Testar requisições diretamente
+- ✅ Ver modelos de dados (schemas)
+- ✅ Autenticar com JWT
+
+## 🗃️ Banco de Dados
+
+### Visualizar dados no navegador
+
+```bash
+npx prisma studio
+```
+
+Acesse: http://localhost:5555
+
+### Resetar banco de dados (desenvolvimento)
+
+```bash
+npx prisma migrate reset
+```
+
+⚠️ **Atenção:** Este comando apaga todos os dados!
+
+## 🧪 Testes
+
+```bash
+# Testes unitários
+npm run test
+
+# Testes com watch mode
+npm run test:watch
+
+# Testes com coverage
+npm run test:cov
+
+# Testes E2E
+npm run test:e2e
+```
+
+## 🐛 Troubleshooting
+
+### Erro de conexão com o banco
+
+Verifique se:
+
+- PostgreSQL está rodando
+- Credenciais no `.env` estão corretas
+- Database existe
+
+```bash
+# Criar database manualmente
+psql -U postgres -c "CREATE DATABASE anime_db;"
+```
+
+### Prisma Client não encontrado
+
+```bash
+# Gerar novamente
+npx prisma generate
+```
+
+### Porta 3000 em uso
+
+Altere a porta no `.env`:
+
+```env
+PORT=3001
+```
+
+## 📝 Notas Importantes
+
+- ⚠️ **NUNCA** commite o arquivo `.env` (contém credenciais)
+- ⚠️ **NUNCA** commite a pasta `src/generated/` (gerada automaticamente)
+- ✅ **SEMPRE** commite `prisma/schema.prisma` e `prisma/migrations/`
+- ✅ Execute `npx prisma generate` após `git pull` com mudanças no schema
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT.
