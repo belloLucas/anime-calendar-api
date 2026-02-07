@@ -6,10 +6,13 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.enableCors();
+
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
       whitelist: true,
+      forbidNonWhitelisted: true,
     }),
   );
 
@@ -17,14 +20,32 @@ async function bootstrap() {
     .setTitle('Calendário Anime API')
     .setDescription('API para gerenciamento de calendário de animes')
     .setVersion('1.0')
-    .addTag('animes')
+    .addTag('animes', 'Operações relacionadas a animes')
+    .addTag('auth', 'Autenticação e autorização')
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        name: 'JWT',
+        description: 'Enter JWT token',
+        in: 'header',
+      },
+      'JWT-auth',
+    )
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('api', app, document, {
+    swaggerOptions: {
+      persistAuthorization: true,
+    },
+  });
 
-  await app.listen(3000);
-  console.log('🚀 Application is running on: http://localhost:3000');
-  console.log('📚 Swagger UI available at: http://localhost:3000/api');
+  const port = process.env.PORT || 3000;
+  await app.listen(port);
+
+  console.log('🚀 Application is running on: http://localhost:' + port);
+  console.log('📚 Swagger UI available at: http://localhost:' + port + '/api');
 }
 bootstrap();
