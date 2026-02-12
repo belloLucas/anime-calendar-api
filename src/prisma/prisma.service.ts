@@ -2,7 +2,7 @@ import 'dotenv/config';
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from 'src/generated/prisma/client';
-import { Pool } from 'node_modules/@types/pg/index.mjs';
+import { Pool } from 'pg';
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit {
